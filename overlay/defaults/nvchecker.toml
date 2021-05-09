@@ -1,0 +1,25 @@
+# Example nvchecker configuration file
+# https://nvchecker.readthedocs.io/en/latest/usage.html#configuration-files
+
+[__config__]
+oldver = "/config/old_ver.json"
+newver = "/config/new_ver.json"
+
+[google-chrome]
+source = "cmd"
+cmd = '''wget -qO- http://dl.google.com/linux/chrome/rpm/stable/x86_64/repodata/other.xml.gz | zgrep -A1 "google-chrome-stable" | awk -F\" '/version/ {print $4"-"$6}' '''
+
+[fbcat]
+source = "aur"
+
+[nvchecker]
+source = "github"
+github = "lilydjwg/nvchecker"
+
+[PySide]
+source = "pypi"
+pypi = "PySide"
+
+["Sparkle Test App"]
+source = "sparkle"
+sparkle = "https://sparkle-project.org/files/sparkletestcast.xml"

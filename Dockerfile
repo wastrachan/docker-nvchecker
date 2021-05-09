@@ -1,20 +1,39 @@
-FROM alpine:latest
+FROM python:3.8-alpine
 LABEL maintainer="Winston Astrachan"
-LABEL description="Software on Alpine Linux"
+LABEL description="nvchecker on Alpine Linux"
+ARG NVCHECKER_VERSION="2.3"
 
 # Add users before any software to prevent UID/GID conflicts
-RUN addgroup -S -g 101 software; \
-    adduser -S -H -G software -u 101 software
+RUN addgroup -S -g 101 nvchecker; \
+    adduser -S -H -G nvchecker -u 101 nvchecker
 
+# Install dependencies
 RUN set -eux; \
-    apk add --update --no-cache \
-        software \
+    apk add --update --no-cache --virtual .dependencies \
+        gzip \
+        libcurl \
+        sudo \
+        wget \
     ; \
-    mkdir /config
+    pip install -U setuptools pip
+
+# Install nvchecker
+ADD https://github.com/lilydjwg/nvchecker/archive/refs/tags/v${NVCHECKER_VERSION}.tar.gz nvchecker.tar.gz
+RUN set -eux; \
+    apk add --update --no-cache --virtual .build-dependencies \
+        curl-dev \
+        build-base \
+    ; \
+    mkdir -p /nvchecker; \
+    tar --strip-components=1 -xzvf nvchecker.tar.gz -C /nvchecker; \
+    cd /nvchecker; \
+    touch nvchecker_source/__init__.py; \
+    python3 setup.py install; \
+    rm -rf /nvchecker /nvchecker.tar.gz; \
+    apk del .build-dependencies;
 
 COPY overlay/ /
 VOLUME /config
-EXPOSE 80/tcp
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["/usr/sbin/software", "-c", "/config/config.yml"]
+CMD ["sudo", "-u", "nvchecker", "nvchecker", "-c", "/config/nvchecker.toml"]
