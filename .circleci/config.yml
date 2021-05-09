@@ -2,26 +2,27 @@ version: 2
 jobs:
   build:
     environment:
-      IMAGE_NAME: wastrachan/docker-image-template
+      REPO_NAME: "wastrachan"
+      IMAGE_NAME: "nvchecker"
+      IMAGE_VERSION: "2.3"
     docker:
       - image: docker:latest
     steps:
       - checkout
       - setup_remote_docker
       - run:
-          name: Install deps
+          name: build image
           command: |
-            apk --no-cache add curl
-      - run:
-          name: Build image
-          command: |
-            docker build -t $IMAGE_NAME:latest .
+            docker build --build-arg NVCHECKER_VERSION=$IMAGE_VERSION -t $IMAGE_NAME .
+            docker tag $IMAGE_NAME $REPO_NAME/$IMAGE_NAME:$IMAGE_VERSION
+            docker tag $IMAGE_NAME $REPO_NAME/$IMAGE_NAME:latest
       - deploy:
-          name: Publish image
+          name: publish image
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-              docker push $IMAGE_NAME:latest
+              docker push $REPO_NAME/$IMAGE_NAME:$IMAGE_VERSION
+              docker push $REPO_NAME/$IMAGE_NAME:latest
             fi
 
 workflows:
@@ -32,12 +33,3 @@ workflows:
           filters:
             branches:
               only: master
-  nightly:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only: master
-    jobs:
-      - build
