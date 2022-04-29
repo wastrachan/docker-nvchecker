@@ -1,7 +1,7 @@
 FROM python:3.9-alpine
 LABEL maintainer="Winston Astrachan"
 LABEL description="nvchecker on Alpine Linux"
-ARG NVCHECKER_VERSION="2.3"
+ARG NVCHECKER_VERSION="2.8"
 
 # Add users before any software to prevent UID/GID conflicts
 RUN addgroup -S -g 101 nvchecker; \
