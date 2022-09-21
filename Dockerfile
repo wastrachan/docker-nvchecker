@@ -1,7 +1,7 @@
-FROM python:3.9-alpine
+FROM python:3.10-alpine
 LABEL maintainer="Winston Astrachan"
 LABEL description="nvchecker on Alpine Linux"
-ARG NVCHECKER_VERSION="2.8"
+ARG NVCHECKER_VERSION="2.9"
 
 # Add users before any software to prevent UID/GID conflicts
 RUN addgroup -S -g 101 nvchecker; \
@@ -15,7 +15,7 @@ RUN set -eux; \
         sudo \
         wget \
     ; \
-    pip install -U setuptools pip
+    pip install -U setuptools pip packaging
 
 # Install nvchecker
 ADD https://github.com/lilydjwg/nvchecker/archive/refs/tags/v${NVCHECKER_VERSION}.tar.gz nvchecker.tar.gz
