@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.11-alpine
 LABEL maintainer="Winston Astrachan"
 LABEL description="nvchecker on Alpine Linux"
 ARG NVCHECKER_VERSION="2.9"
