@@ -27,8 +27,7 @@ RUN set -eux; \
     mkdir -p /nvchecker; \
     tar --strip-components=1 -xzvf nvchecker.tar.gz -C /nvchecker; \
     cd /nvchecker; \
-    touch nvchecker_source/__init__.py; \
-    python3 setup.py install; \
+    pip install .; \
     rm -rf /nvchecker /nvchecker.tar.gz; \
     apk del .build-dependencies;
 
