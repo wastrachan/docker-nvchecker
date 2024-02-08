@@ -1,7 +1,3 @@
-# docker-nvchecker makefile
-#
-# Copyright (c) Winston Astrachan 2022
-
 help:
 	@echo ""
 	@echo "Usage: make COMMAND"

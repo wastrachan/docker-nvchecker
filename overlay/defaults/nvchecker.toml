@@ -1,9 +1,11 @@
-# Example nvchecker configuration file
-# https://nvchecker.readthedocs.io/en/latest/usage.html#configuration-files
-
 [__config__]
-oldver = "/config/old_ver.json"
-newver = "/config/new_ver.json"
+oldver = "old_ver.json"
+newver = "new_ver.json"
+
+[vim]
+source = "regex"
+regex = "7\\.3\\.\\d+"
+url = "http://ftp.vim.org/pub/vim/patches/7.3/"
 
 [google-chrome]
 source = "cmd"
@@ -12,6 +14,10 @@ cmd = '''wget -qO- http://dl.google.com/linux/chrome/rpm/stable/x86_64/repodata/
 [fbcat]
 source = "aur"
 
+[winterpy]
+source = "github"
+github = "lilydjwg/winterpy"
+
 [nvchecker]
 source = "github"
 github = "lilydjwg/nvchecker"
@@ -19,6 +25,10 @@ github = "lilydjwg/nvchecker"
 [PySide]
 source = "pypi"
 pypi = "PySide"
+
+[test]
+source = "manual"
+manual = "0.1"
 
 ["Sparkle Test App"]
 source = "sparkle"
