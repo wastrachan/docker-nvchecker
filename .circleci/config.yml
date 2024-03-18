@@ -33,13 +33,3 @@ workflows:
           filters:
             branches:
               only: master
-  nightly:
-    triggers:
-      - schedule:
-          cron: "0 0 * * 1,4"
-          filters:
-            branches:
-              only: master
-    jobs:
-      - build:
-          context: Docker
