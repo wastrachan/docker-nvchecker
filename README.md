@@ -15,7 +15,15 @@ Pull the latest image from Docker Hub:
 docker pull wastrachan/nvchecker
 ```
 
-#### Manually
+#### Github Container Registry
+
+Or, pull from the GitHub Container Registry:
+
+```shell
+docker pull ghcr.io/wastrachan/nvchecker
+```
+
+#### Build From Source
 
 Clone this repository, and run `make build` to build an image:
 
@@ -25,8 +33,6 @@ cd docker-nvchecker
 make build
 ```
 
-If you need to rebuild the image, run `make clean build`.
-
 ## Run
 
 Run this image with the `make run` shortcut, or manually with `docker run`.
@@ -35,8 +41,8 @@ Run this image with the `make run` shortcut, or manually with `docker run`.
 docker run -v "$(pwd)/config:/config" \
            --name nvchecker \
            --rm \
-           -e PUID=1000 \
-           -e PGID=1000 \
+           -e PUID=$(id -u) \
+           -e PGID=$(id -g) \
            wastrachan/nvchecker:latest
 ```
 

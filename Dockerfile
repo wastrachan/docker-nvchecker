@@ -1,9 +1,10 @@
 FROM python:3.12-alpine
 
-LABEL org.opencontainers.image.title="nvchecker"
-LABEL org.opencontainers.image.description="nvchecker on alpine linux"
-LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.title="Docker nvchecker"
+LABEL org.opencontainers.image.description="nvchecker on Alpine Linux"
 LABEL org.opencontainers.image.authors="Winston Astrachan"
+LABEL org.opencontainers.image.source="https://github.com/wastrachan/docker-nvchecker/"
+LABEL org.opencontainers.image.licenses="MIT"
 
 ARG NVCHECKER_VERSION="2.13.1"
 

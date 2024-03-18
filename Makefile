@@ -1,35 +1,45 @@
+# nvchecker Docker Image
+
+.PHONY: help
 help:
 	@echo ""
 	@echo "Usage: make COMMAND"
 	@echo ""
-	@echo "docker-nvchecker makefile"
+	@echo "Docker nvchecker image makefile"
 	@echo ""
 	@echo "Commands:"
 	@echo "  build        Build and tag image"
-	@echo "  run          Start container with locally mounted config volume"
-	@echo "  clean        Mark image for rebuild"
-	@echo "  delete       Delete image and mark for rebuild"
+	@echo "  push         Push tagged image to registry"
+	@echo "  run          Start container in the background with locally mounted volume"
+	@echo "  stop         Stop and remove container running in the background"
+	@echo "  delete       Delete all built image versions"
 	@echo ""
 
-build: .docker-nvchecker.img
+IMAGE=wastrachan/nvchecker
+TAG=latest
+REGISTRY=docker.io
 
-.docker-nvchecker.img:
-	docker build -t wastrachan/nvchecker:latest .
-	@touch $@
+.PHONY: build
+build:
+	@docker build -t ${REGISTRY}/${IMAGE}:${TAG} .
+
+.PHONY: push
+push:
+	@docker push ${REGISTRY}/${IMAGE}:${TAG}
 
 .PHONY: run
 run: build
 	docker run -v "$(CURDIR)/config:/config" \
 	           --name nvchecker \
-	           --rm \
-	           -e PUID=1000 \
-	           -e PGID=1000 \
-	           wastrachan/nvchecker:latest
+			   --rm \
+	           -e PUID=$$(id -u) \
+	           -e PGID=$$(id -g) \
+	           ${REGISTRY}/${IMAGE}:${TAG}
 
-.PHONY: clean
-clean:
-	rm -f .docker-nvchecker.img
+.PHONY: stop
+stop:
+	@docker stop nvchecker
 
 .PHONY: delete
-delete: clean
-	docker rmi -f wastrachan/nvchecker
+delete:
+	@docker image ls | grep ${IMAGE} | awk '{print $$3}' | xargs -I + docker rmi +
