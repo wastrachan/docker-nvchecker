@@ -1,6 +1,9 @@
 version: 2
 jobs:
   build:
+    environment:
+      TAG: "2.13.1"
+
     docker:
       - image: cimg/base:current
     resource_class: large
@@ -14,15 +17,19 @@ jobs:
           name: Build image
           command: |
             make build
+            docker tag wastrachan/nvchecker:latest wastrachan/nvchecker:$TAG
             docker tag wastrachan/nvchecker:latest ghcr.io/wastrachan/nvchecker:latest
+            docker tag wastrachan/nvchecker:latest ghcr.io/wastrachan/nvchecker:$TAG
 
       - run:
           name: Publish image
           command: |
             echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
             echo "$GITHUB_PAT" | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin
-            make push
-            make push REGISTRY=ghcr.io
+            docker push wastrachan/nvchecker:latest
+            docker push wastrachan/nvchecker:$TAG
+            ghcr.io/wastrachan/nvchecker:latest
+            ghcr.io/wastrachan/nvchecker:$TAG
 
 workflows:
   version: 2
