@@ -28,8 +28,8 @@ jobs:
             echo "$GITHUB_PAT" | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin
             docker push wastrachan/nvchecker:latest
             docker push wastrachan/nvchecker:$TAG
-            ghcr.io/wastrachan/nvchecker:latest
-            ghcr.io/wastrachan/nvchecker:$TAG
+            docker push ghcr.io/wastrachan/nvchecker:latest
+            docker push ghcr.io/wastrachan/nvchecker:$TAG
 
 workflows:
   version: 2
