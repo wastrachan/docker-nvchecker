@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.authors="Winston Astrachan"
 LABEL org.opencontainers.image.source="https://github.com/wastrachan/docker-nvchecker/"
 LABEL org.opencontainers.image.licenses="MIT"
 
-ARG NVCHECKER_VERSION="2.13.1"
+ARG NVCHECKER_VERSION="2.15.1"
 
 # Add users before any software to prevent UID/GID conflicts
 RUN <<EOF
