@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     environment:
-      TAG: "2.13.1"
+      TAG: "2.20"
 
     docker:
       - image: cimg/base:current

@@ -1,4 +1,4 @@
-FROM python:3.13-alpine
+FROM python:3.14-alpine
 
 LABEL org.opencontainers.image.title="Docker nvchecker"
 LABEL org.opencontainers.image.description="nvchecker on Alpine Linux"
@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.authors="Winston Astrachan"
 LABEL org.opencontainers.image.source="https://github.com/wastrachan/docker-nvchecker/"
 LABEL org.opencontainers.image.licenses="MIT"
 
-ARG NVCHECKER_VERSION="2.17"
+ARG NVCHECKER_VERSION="2.20"
 
 # Add users before any software to prevent UID/GID conflicts
 RUN <<EOF
